@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Image from 'next/image';
 
 import Prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
@@ -25,9 +26,30 @@ interface HomeProps {
   postsPagination: PostPagination;
 }
 
-const Home: FunctionComponent<HomeProps> = ({ postsPagination }) => {
-  console.log(postsPagination);
-  return <h1>Test</h1>;
+const Home: FunctionComponent<HomeProps> = ({
+  postsPagination: { results, next_page },
+}) => {
+  return (
+    <main>
+      <Image
+        src="/Logo.png"
+        alt="logo"
+        width="238.62"
+        height="25"
+        loading="eager"
+      />
+      {results.map(({ uid, first_publication_date, data }) => (
+        <article key={uid}>
+          <h1>{data.title}</h1>
+          <p>{data.subtitle}</p>
+          <div>
+            <time>{first_publication_date}</time>
+            <address>{data.author}</address>
+          </div>
+        </article>
+      ))}
+    </main>
+  );
 };
 
 export default Home;
