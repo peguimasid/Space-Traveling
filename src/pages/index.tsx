@@ -1,12 +1,10 @@
 import { GetStaticProps } from 'next';
 
-import { RichText } from 'prismic-dom';
 import Prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
-import styles from './home.module.scss';
 
 interface Post {
   uid?: string;
