@@ -47,7 +47,7 @@ const Home: FunctionComponent<HomeProps> = ({
           <p>{data.subtitle}</p>
           <div>
             <time>
-              {format(new Date(first_publication_date), 'dd/MM/yyyy', {
+              {format(new Date(first_publication_date), 'dd MMM yyyy', {
                 locale: ptBR,
               })}
             </time>
