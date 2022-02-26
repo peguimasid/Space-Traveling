@@ -31,7 +31,6 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = ({
   postsPagination: { results, next_page },
 }) => {
-  console.log(results);
   return (
     <main>
       <Image
@@ -55,6 +54,11 @@ const Home: FunctionComponent<HomeProps> = ({
           </div>
         </article>
       ))}
+      {next_page && (
+        <button type="button" onClick={() => console.log('carrega mais')}>
+          Carregar mais posts
+        </button>
+      )}
     </main>
   );
 };
@@ -66,8 +70,8 @@ export const getStaticProps: GetStaticProps = async () => {
   const postsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'posts')],
     {
-      pageSize: 100,
-      // page: 2,
+      pageSize: 1,
+      page: 1,
     }
   );
 
