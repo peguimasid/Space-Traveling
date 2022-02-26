@@ -3,6 +3,8 @@ import Image from 'next/image';
 
 import Prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 import { getPrismicClient } from '../services/prismic';
 
 import commonStyles from '../styles/common.module.scss';
@@ -29,6 +31,7 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = ({
   postsPagination: { results, next_page },
 }) => {
+  console.log(results);
   return (
     <main>
       <Image
@@ -43,7 +46,11 @@ const Home: FunctionComponent<HomeProps> = ({
           <h1>{data.title}</h1>
           <p>{data.subtitle}</p>
           <div>
-            <time>{first_publication_date}</time>
+            <time>
+              {format(new Date(first_publication_date), 'dd/MM/yyyy', {
+                locale: ptBR,
+              })}
+            </time>
             <address>{data.author}</address>
           </div>
         </article>
@@ -67,7 +74,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const posts = postsResponse.results.map(
     ({ uid, data: { title, subtitle, author }, first_publication_date }) => {
       return {
-        slug: uid,
+        uid,
         first_publication_date,
         data: {
           title,
