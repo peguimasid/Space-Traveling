@@ -1,1 +1,71 @@
-// TODO
+.container {
+  width: 100vw;
+  height: 100vh;
+  background: #1a1d23;
+}
+
+.logo {
+  padding: 3rem 0;
+}
+
+.content {
+  max-width: 768px;
+  padding: 0 20px;
+  margin: 0 auto;
+
+  article {
+    & + article {
+      margin-top: 2rem;
+    }
+    h1 {
+      color: #f8f8f8;
+      font-family: 'Inter', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+
+    > p {
+      color: #bbbbbb;
+      font-family: 'Inter', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.5px;
+      line-height: 3rem;
+    }
+
+    div {
+      display: flex;
+      flex-direction: row;
+      color: #bbbbbb;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.5px;
+      line-height: 3rem;
+
+      time {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        & p {
+          font-size: 15px;
+          margin-left: 0.5rem;
+        }
+      }
+
+      address {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-style: normal;
+        margin-left: 1rem;
+        & p {
+          font-size: 15px;
+          margin-left: 0.5rem;
+        }
+      }
+
+      & svg {
+        font-size: 22px;
+      }
+    }
+  }
+}

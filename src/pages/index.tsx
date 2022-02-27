@@ -5,9 +5,10 @@ import Prismic from '@prismicio/client';
 import { FunctionComponent } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { FiCalendar, FiUser } from 'react-icons/fi';
 import { getPrismicClient } from '../services/prismic';
 
-import commonStyles from '../styles/common.module.scss';
+import styles from './home.module.scss';
 
 interface Post {
   uid?: string;
@@ -32,33 +33,43 @@ const Home: FunctionComponent<HomeProps> = ({
   postsPagination: { results, next_page },
 }) => {
   return (
-    <main>
-      <Image
-        src="/Logo.png"
-        alt="logo"
-        width="238.62"
-        height="25"
-        loading="eager"
-      />
-      {results.map(({ uid, first_publication_date, data }) => (
-        <article key={uid}>
-          <h1>{data.title}</h1>
-          <p>{data.subtitle}</p>
-          <div>
-            <time>
-              {format(new Date(first_publication_date), 'dd MMM yyyy', {
-                locale: ptBR,
-              })}
-            </time>
-            <address>{data.author}</address>
-          </div>
-        </article>
-      ))}
-      {next_page && (
-        <button type="button" onClick={() => console.log('carrega mais')}>
-          Carregar mais posts
-        </button>
-      )}
+    <main className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.logo}>
+          <Image
+            src="/Logo.png"
+            alt="logo"
+            width="238.62"
+            height="25"
+            loading="eager"
+          />
+        </div>
+        {results.map(({ uid, first_publication_date, data }) => (
+          <article key={uid}>
+            <h1>{data.title}</h1>
+            <p>{data.subtitle}</p>
+            <div>
+              <time>
+                <FiCalendar />
+                <p>
+                  {format(new Date(first_publication_date), 'dd MMM yyyy', {
+                    locale: ptBR,
+                  })}
+                </p>
+              </time>
+              <address>
+                <FiUser />
+                <p>{data.author}</p>
+              </address>
+            </div>
+          </article>
+        ))}
+        {next_page && (
+          <button type="button" onClick={() => console.log('carrega mais')}>
+            Carregar mais posts
+          </button>
+        )}
+      </div>
     </main>
   );
 };
@@ -70,7 +81,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const postsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'posts')],
     {
-      pageSize: 1,
+      pageSize: 2,
       page: 1,
     }
   );
