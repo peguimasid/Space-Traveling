@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next';
 import Image from 'next/image';
 
 import Prismic from '@prismicio/client';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useCallback, useState } from 'react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { FiCalendar, FiUser } from 'react-icons/fi';
@@ -32,6 +32,17 @@ interface HomeProps {
 const Home: FunctionComponent<HomeProps> = ({
   postsPagination: { results, next_page },
 }) => {
+  const [posts, setPosts] = useState(results);
+  const [nextPage, setNextPage] = useState(next_page);
+
+  const handleLoadMorePosts = useCallback(async () => {
+    const { results: responseResults, next_page: responseNextPage } =
+      await fetch(nextPage).then(response => response.json());
+
+    setPosts(prevState => [...prevState, ...responseResults]);
+    setNextPage(responseNextPage);
+  }, [nextPage]);
+
   return (
     <main className={styles.container}>
       <div className={styles.content}>
@@ -44,7 +55,7 @@ const Home: FunctionComponent<HomeProps> = ({
             loading="eager"
           />
         </div>
-        {results.map(({ uid, first_publication_date, data }) => (
+        {posts.map(({ uid, first_publication_date, data }) => (
           <article key={uid}>
             <h1>{data.title}</h1>
             <p>{data.subtitle}</p>
@@ -64,8 +75,8 @@ const Home: FunctionComponent<HomeProps> = ({
             </div>
           </article>
         ))}
-        {next_page && (
-          <button type="button" onClick={() => console.log('carrega mais')}>
+        {nextPage && (
+          <button type="button" onClick={handleLoadMorePosts}>
             Carregar mais posts
           </button>
         )}
@@ -81,7 +92,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const postsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'posts')],
     {
-      pageSize: 2,
+      pageSize: 1,
       page: 1,
     }
   );
