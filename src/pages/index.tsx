@@ -35,12 +35,16 @@ const Home: FunctionComponent<HomeProps> = ({
   const [posts, setPosts] = useState(results);
   const [nextPage, setNextPage] = useState(next_page);
 
+  const [fetchingPosts, setFetchingPosts] = useState(false);
+
   const handleLoadMorePosts = useCallback(async () => {
+    setFetchingPosts(true);
     const { results: responseResults, next_page: responseNextPage } =
       await fetch(nextPage).then(response => response.json());
 
     setPosts(prevState => [...prevState, ...responseResults]);
     setNextPage(responseNextPage);
+    setFetchingPosts(false);
   }, [nextPage]);
 
   return (
@@ -76,7 +80,11 @@ const Home: FunctionComponent<HomeProps> = ({
           </article>
         ))}
         {nextPage && (
-          <button type="button" onClick={handleLoadMorePosts}>
+          <button
+            type="button"
+            disabled={fetchingPosts}
+            onClick={handleLoadMorePosts}
+          >
             Carregar mais posts
           </button>
         )}
