@@ -1,4 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import { FunctionComponent } from 'react';
 
 import { getPrismicClient } from '../../services/prismic';
 
@@ -26,9 +28,15 @@ interface PostProps {
   post: Post;
 }
 
-// export default function Post() {
-//   // TODO
-// }
+const Post: FunctionComponent = () => {
+  const router = useRouter();
+
+  console.log(router);
+
+  return <h1>Post page</h1>;
+};
+
+export default Post;
 
 // export const getStaticPaths = async () => {
 //   const prismic = getPrismicClient();

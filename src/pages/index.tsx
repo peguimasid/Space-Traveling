@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import Prismic from '@prismicio/client';
 import { FunctionComponent, useCallback, useState } from 'react';
@@ -60,24 +61,26 @@ const Home: FunctionComponent<HomeProps> = ({
           />
         </div>
         {posts.map(({ uid, first_publication_date, data }) => (
-          <article key={uid}>
-            <h1>{data.title}</h1>
-            <p>{data.subtitle}</p>
-            <div>
-              <time>
-                <FiCalendar />
-                <p>
-                  {format(new Date(first_publication_date), 'dd MMM yyyy', {
-                    locale: ptBR,
-                  })}
-                </p>
-              </time>
-              <address>
-                <FiUser />
-                <p>{data.author}</p>
-              </address>
-            </div>
-          </article>
+          <Link key={uid} href={`/post/${uid}`}>
+            <a>
+              <h1>{data.title}</h1>
+              <p>{data.subtitle}</p>
+              <div>
+                <time>
+                  <FiCalendar />
+                  <p>
+                    {format(new Date(first_publication_date), 'dd MMM yyyy', {
+                      locale: ptBR,
+                    })}
+                  </p>
+                </time>
+                <address>
+                  <FiUser />
+                  <p>{data.author}</p>
+                </address>
+              </div>
+            </a>
+          </Link>
         ))}
         {nextPage && (
           <button

@@ -13,8 +13,9 @@
   padding: 0 20px;
   margin: 0 auto;
 
-  article {
-    & + article {
+  a {
+    text-decoration: none;
+    & + a {
       margin-top: 2rem;
     }
     h1 {
