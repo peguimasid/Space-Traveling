@@ -61,26 +61,28 @@ const Home: FunctionComponent<HomeProps> = ({
           />
         </div>
         {posts.map(({ uid, first_publication_date, data }) => (
-          <Link key={uid} href={`/post/${uid}`}>
-            <a>
-              <h1>{data.title}</h1>
-              <p>{data.subtitle}</p>
-              <div>
-                <time>
-                  <FiCalendar />
-                  <p>
-                    {format(new Date(first_publication_date), 'dd MMM yyyy', {
-                      locale: ptBR,
-                    })}
-                  </p>
-                </time>
-                <address>
-                  <FiUser />
-                  <p>{data.author}</p>
-                </address>
-              </div>
-            </a>
-          </Link>
+          <div key={uid}>
+            <Link href={`/post/${uid}`}>
+              <a>
+                <h1>{data.title}</h1>
+                <p>{data.subtitle}</p>
+                <div>
+                  <time>
+                    <FiCalendar />
+                    <p>
+                      {format(new Date(first_publication_date), 'dd MMM yyyy', {
+                        locale: ptBR,
+                      })}
+                    </p>
+                  </time>
+                  <address>
+                    <FiUser />
+                    <p>{data.author}</p>
+                  </address>
+                </div>
+              </a>
+            </Link>
+          </div>
         ))}
         {nextPage && (
           <button
