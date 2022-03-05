@@ -1,5 +1,4 @@
 import { GetStaticProps } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 
 import Prismic from '@prismicio/client';
@@ -51,15 +50,6 @@ const Home: FunctionComponent<HomeProps> = ({
   return (
     <main className={styles.container}>
       <div className={styles.content}>
-        <div className={styles.logo}>
-          <Image
-            src="/Logo.png"
-            alt="logo"
-            width="238.62"
-            height="25"
-            loading="eager"
-          />
-        </div>
         {posts.map(({ uid, first_publication_date, data }) => (
           <div key={uid}>
             <Link href={`/post/${uid}`}>
